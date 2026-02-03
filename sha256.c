@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 uint32_t	ror(uint32_t x, uint8_t n) {
 	return (x >> n) | (x << (32 - n));
@@ -31,7 +32,21 @@ uint8_t	*message_to_blocks(const char *str, uint64_t *size_allocation)
 	return (bitset);
 }
 
-int	main(int argc, char **argv)
+void	write_res(uint32_t h)
+{
+	char str[8];
+	char hexa[16] = "0123456789abcdef";
+
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		str[7 - i] = hexa[h % 16];
+		h >>= 4;
+	}
+	write(1, str, 8);
+}
+
+
+int	main(void)
 {
 	uint32_t h0 = 0x6a09e667;
 	uint32_t h1 = 0xbb67ae85;
@@ -56,7 +71,7 @@ int	main(int argc, char **argv)
 	uint64_t size;
 	uint8_t *bits = message_to_blocks(str, &size);
 
-	for (int sub_c = 0; sub_c < (size / 64); sub_c++)
+	for (uint8_t sub_c = 0; sub_c < (uint8_t)(size / 64); sub_c++)
 	{
 		uint8_t *chunk = (bits + (sub_c * 64));
 		uint32_t w[64];
@@ -110,6 +125,16 @@ int	main(int argc, char **argv)
 		h6 = h6 + g;
 		h7 = h7 + h;
 	}
+	// write(1, "0x" , 2);
+	// write_res(h0);
+	// write_res(h1);
+	// write_res(h2);
+	// write_res(h3);
+	// write_res(h4);
+	// write_res(h5);
+	// write_res(h6);
+	// write_res(h7);
+	// write(1, "\n", 1);
 	printf("0x%08x%08x%08x%08x%08x%08x%08x%08x\n", h0, h1, h2, h3, h4, h5, h6, h7);
 	free(bits);
 }
