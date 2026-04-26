@@ -1,7 +1,7 @@
 NAME= sha256
 
 CC = gcc
-CFLAGS= -O2 -march=native -Wall -Wextra
+CFLAGS= -O3 -march=native -flto -Wall -Wextra
 
 SRC = sha.c
 OBJ = $(SRC:.c=.o)
