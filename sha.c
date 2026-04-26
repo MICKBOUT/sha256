@@ -339,6 +339,9 @@ int main(void)
 	
 	// time on serv-mat
 	// 10e6 = 10_000_000 ≃ 0.85s
+	
+	// time on pc-linux-home
+	// 10e6 = 10_000_000 ≃ 0.55s
 	for (unsigned int i = 0; i < 10e6; i++) {
 		tmp = atoi_base(i, str);
 		hash = sha_256(tmp, hash, blocks);
